@@ -102,6 +102,8 @@ static void window_load(Window* window) {
   layer_add_to_window(layer_header, window);
 
   layer_menu = menu_layer_create(GRect(0, 24, 144, 128));
+  menu_layer_set_normal_colors(layer_menu, GColorWhite, GColorBlack);  
+  menu_layer_set_highlight_colors(layer_menu, GColorBlue, GColorWhite);
   menu_layer_set_callbacks(layer_menu, NULL, (MenuLayerCallbacks){
     .get_num_sections = menu_get_num_sections_callback,
     .get_num_rows = menu_get_num_rows_callback,

@@ -100,6 +100,8 @@ void win_train_show(bool animated) {
 
 static void window_load(Window* window) {
   layer_menu = menu_layer_create_fullscreen(window);
+  menu_layer_set_normal_colors(layer_menu, GColorWhite, GColorBlack);  
+  menu_layer_set_highlight_colors(layer_menu, GColorBlue, GColorWhite);  
   menu_layer_set_callbacks(layer_menu, NULL, (MenuLayerCallbacks){
     .get_num_sections = menu_get_num_sections_callback,
     .get_num_rows = menu_get_num_rows_callback,
