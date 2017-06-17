@@ -49,7 +49,7 @@ var Bus = function (options) {
   this.location = options.location || navigator.geolocation;
 
   this.debug = options.debug;
-  this.keen = options.keen;
+    //this.keen = options.keen;
   this.version = options.version;
   this.api = options.api;
 
@@ -161,9 +161,9 @@ var Bus = function (options) {
 
   function trackTimeTaken(start, event) {
     var now = new Date();
-    if (this.keen) {
-      this.keen.sendEvent('time.taken', { event: event, msTaken: now.getTime() - start.getTime() });
-    }
+    // if (this.keen) {
+    //   this.keen.sendEvent('time.taken', { event: event, msTaken: now.getTime() - start.getTime() });
+    // }
   }
 
 };

@@ -48,7 +48,7 @@ var Config = require('./config');
 var Bus = require('./bus');
 var Train = require('./train');
 var Tube = require('./tube');
-var Keen = require('./libs/keen');
+//var Keen = require('./libs/keen');
 var http = require('./libs/http');
 var AppInfo = require('../../../appinfo.json');
 var MessageQueue = require('./libs/js-message-queue.min');
@@ -60,7 +60,7 @@ var MessageQueue = require('./libs/js-message-queue.min');
       train.init();
       tube.init();
       bus.init();
-      Keen.init(http, Pebble, Config.keen, AppInfo, Config.debug);
+	//Keen.init(http, Pebble, Config.keen, AppInfo, Config.debug);
       Pebble.addEventListener('appmessage', analyticsMessageHandler);
       MessageQueue.sendAppMessage({ group: 'SYS', operation: 'INIT', data: 'HELLO!' });
     }
@@ -70,14 +70,14 @@ var MessageQueue = require('./libs/js-message-queue.min');
   });
 
   var tube = new Tube({
-    keen: Keen,
+      //keen: Keen,
     debug: Config.debug,
     api: Config.api.tube,
     version: AppInfo.versionLabel
   });
 
   var train = new Train({
-    keen: Keen,
+      //keen: Keen,
     debug: Config.debug,
     transportApi: Config.transportApi,
     api: Config.api.train,
@@ -85,7 +85,7 @@ var MessageQueue = require('./libs/js-message-queue.min');
   });
 
   var bus = new Bus({
-    keen: Keen,
+//    keen: Keen,
     debug: Config.debug,
     transportApi: Config.transportApi,
     api: Config.api.bus,
@@ -112,7 +112,7 @@ var MessageQueue = require('./libs/js-message-queue.min');
     catch (ex) {
       console.log(ex);
     }
-    Keen.sendEvent(event.payload.operation, data);
+      //Keen.sendEvent(event.payload.operation, data);
   }
 
 }());
