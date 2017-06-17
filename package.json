@@ -1,0 +1,88 @@
+{
+  "version": "1.7.0",
+  "author": "Matthew Tole",
+  "private": true,
+  "dependencies": {},
+  "keywords": [
+    "pebble-app"
+  ],
+  "pebble": {
+    "sdkVersion": "3",
+    "resources": {
+      "media": [
+        {
+          "menuIcon": true,
+          "type": "png",
+          "name": "MENU_ICON",
+          "file": "images/menu.png"
+        },
+        {
+          "type": "png",
+          "name": "MENU_RAIL",
+          "file": "images/menu_rail.png"
+        },
+        {
+          "type": "png",
+          "name": "MENU_TFL",
+          "file": "images/menu_tfl.png"
+        },
+        {
+          "type": "png",
+          "name": "MENU_BUS",
+          "file": "images/menu_bus.png"
+        },
+        {
+          "type": "png",
+          "name": "MENU_REFRESH",
+          "file": "images/menu_refresh.png"
+        },
+        {
+          "type": "png",
+          "name": "MENU_SETTINGS",
+          "file": "images/menu_settings.png"
+        },
+        {
+          "type": "png",
+          "name": "MENU_ABOUT",
+          "file": "images/menu_about.png"
+        },
+        {
+          "type": "png",
+          "name": "ICON_FAVOURITE",
+          "file": "images/icon_favourite.png"
+        },
+        {
+          "characterRegex": "ab",
+          "type": "font",
+          "name": "FONT_ICON_8",
+          "file": "fonts/icomoon.ttf"
+        }
+      ]
+    },
+    "projectType": "native",
+    "uuid": "00e9deeb-16b4-4752-ae35-2cc088fc6ca9",
+    "messageKeys": {
+      "data": 2,
+      "operation": 1,
+      "group": 0
+    },
+    "enableMultiJS": true,
+    "displayName": "UK Transport",
+    "watchapp": {
+      "onlyShownOnCommunication": false,
+      "hiddenApp": false,
+      "watchface": false
+    },
+    "targetPlatforms": [
+      "aplite",
+      "basalt",
+      "chalk",
+      "diorite",
+      "emery"
+    ],
+    "capabilities": [
+      "location"
+    ]
+  },
+  "name": "UK Transport"
+}

@@ -50,7 +50,7 @@ var Train = require('./train');
 var Tube = require('./tube');
 //var Keen = require('./libs/keen');
 var http = require('./libs/http');
-var AppInfo = require('../../../appinfo.json');
+var AppInfo = require('../../../package.json');
 var MessageQueue = require('./libs/js-message-queue.min');
 
 (function () {
