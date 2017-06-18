@@ -53,10 +53,7 @@ def train_stations():
                       "name": sp["commonName"],
         })
     
-    return json.dumps(
-        {
-        "stops": stops
-            })
+    return json.dumps(stops)
 
 
 def whendue(isowhen):
@@ -84,18 +81,18 @@ def bus_departures():
 
 @app.route("/uk-transport/train/departures.json")
 def train_departures():
-    stop = request.args['stop']
+    stop = request.args['station']
 
     resp = requests.get('{}/StopPoint/{}/arrivals'.format(API_BASE,
                                                           stop))
     assert resp.ok
     obj = json.loads(resp.content)
-    trains = [{'line': o['lineName'],
-              'direction': o['destinationName'],
-               # best_departure_estimate?
-              'best_departure_estimate': whendue(o['expectedArrival']),}
+    trains = [{'status': o['lineName'], # can't find status in this API
+              'destination_name': o['destinationName'],
+              'platform': o['platformName'],               
+              'expected_departure_time': whendue(o['expectedArrival']),}
              for o in obj]
-    trains = sorted(trains, key=lambda b: b['best_departure_estimate'])
+    trains = sorted(trains, key=lambda b: b['expected_departure_time'])
     return json.dumps({"departures":{"all":trains}})
 
 
