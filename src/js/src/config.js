@@ -47,7 +47,7 @@ var Config = {
       details: 'http://uktransport.benmoran.net/uk-transport/tube/details.json'
     },
     train: {
-      stations: 'http://uktransport.benmoran.net/uk-transport/2/train/stations.json',
+      stations: 'http://uktransport.benmoran.net/uk-transport/train/stations.json',
       departures: 'http://uktransport.benmoran.net/uk-transport/train/departures.json'
     },
     bus: {
