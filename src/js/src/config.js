@@ -46,13 +46,13 @@ var Config = {
       status: 'http://uktransport.benmoran.net/uk-transport/tube/status.json',
       details: 'http://uktransport.benmoran.net/uk-transport/tube/details.json'
     },
-    train: {
-      stations: 'http://uktransport.benmoran.net/uk-transport/train/stations.json',
-      departures: 'http://uktransport.benmoran.net/uk-transport/train/departures.json'
+      train: {
+	stations: 'https://api.tfl.gov.uk/Stoppoint',	
+	departures: 'https://api.tfl.gov.uk/Stoppoint/_STATION_/arrivals'	  
     },
     bus: {
-      stops: 'http://uktransport.benmoran.net/uk-transport/bus/stops.json',
-      departures: 'http://uktransport.benmoran.net/uk-transport/bus/departures.json'
+	stops: 'https://api.tfl.gov.uk/Stoppoint',	
+	departures: 'https://api.tfl.gov.uk/Stoppoint/_STOP_/arrivals'
     }
   },
   debug: true

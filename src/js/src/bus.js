@@ -83,14 +83,17 @@ var Bus = function (options) {
       logTimeElapsed.call(this, timeLocation, 'Getting location took %TIME%.');
       var requestData = {
         lon: position.coords.longitude,
-        lat: position.coords.latitude
+          lat: position.coords.latitude,
+	  stoptypes: "NaptanBusCoachStation,NaptanPublicBusCoachTram",
+	  modes: "bus",
+	  radius: "500"
       };
       // requestData = {
       //   lon: -3.166659,
       //   lat: 51.50817
       // };
-      timeLookup = new Date();
-      this.http.get(this.api.stops, requestData, requestCallback.bind(this));
+	timeLookup = new Date();
+	this.http.get(this.api.stops, requestData, requestCallback.bind(this));
     }
 
     function locationError(err) {
@@ -112,13 +115,13 @@ var Bus = function (options) {
       if (! data) {
         return console.log(new Error('Lack of data!'));
       }
-      var stops = data.stops;
+      var stops = data.stopPoints;
       var responseData = [];
       responseData.push(stops.length);
       stops.forEach(function (stop) {
-        responseData.push(stop.atcocode);
-        responseData.push(stop.name.length ? stop.name : ' ');
-        responseData.push(stop.indicator.length ? stop.indicator : ' ');
+        responseData.push(stop.id);
+          responseData.push(stop.commonName);
+          responseData.push(stop.indicator);
       });
       this.messageQueue.sendAppMessage({ group: 'BUS', operation: 'STOPS', data: responseData.join('|') });
     }
@@ -127,9 +130,9 @@ var Bus = function (options) {
   function opBusDepartures(data) {
     var code = data;
     var requestData = {
-      stop: code
+//      stop: code
     };
-    this.http.get(this.api.departures, requestData, requestCallback.bind(this));
+      this.http.get(this.api.departures.replace("_STOP_", code), requestData, requestCallback.bind(this));
 
     function requestCallback(err, data) {
       if (err) {
@@ -138,16 +141,18 @@ var Bus = function (options) {
       if (!data) {
         return console.log(new Error("Lack of data!"));
       }
-      var departures = data.departures.all;
+	var departures = data;
       var responseData = [];
       responseData.push(departures.length);
       departures.forEach(function (departure) {
-        responseData.push(departure.line);
-        responseData.push(departure.direction);
+        responseData.push(departure.lineName);
+        responseData.push(departure.destinationName);
         /*jshint -W106*/
-        var hasEstimate = departure.best_departure_estimate && departure.best_departure_estimate.length;
-        responseData.push(hasEstimate ? departure.best_departure_estimate : departure.aimed_departure_time);
-        /*jshint +W106*/
+          //var hasEstimate = departure.best_departure_estimate && departure.best_departure_estimate.length;
+          //responseData.push(hasEstimate ? departure.best_departure_estimate : departure.aimed_departure_time);
+          /*jshint +W106*/
+	  var d = new Date(Date.parse(departure.expectedArrival));
+	  responseData.push(d.toString().slice(16,21));
       });
       this.messageQueue.sendAppMessage({ group: 'BUS', operation: 'DEPARTURES', data: responseData.join('|') });
     }

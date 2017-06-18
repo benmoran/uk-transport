@@ -99,7 +99,10 @@ var Train = function (options) {
       logTimeElapsed.call(this, timeLocation, 'Getting location took %TIME%.');
       var requestData = {
         lon: position.coords.longitude,
-        lat: position.coords.latitude
+          lat: position.coords.latitude,
+	  stoptypes: "NaptanRailStation",
+	  modes: "national-rail",
+	  radius: 2000
       };
       timeLookup = new Date();
       this.http.get(this.api.stations, requestData, requestCallback.bind(this));
@@ -118,12 +121,12 @@ var Train = function (options) {
       }
       trackTimeTaken.call(this, timeLookup, 'train.stations');
       logTimeElapsed.call(this, timeLookup, 'Finding nearest stations took %TIME%.');
-      var stations = data;
+      var stations = data.stopPoints;
       var responseData = [];
       responseData.push(stations.length);
       stations.forEach(function (station) {
-        responseData.push(station.code);
-        responseData.push(station.name);
+        responseData.push(station.id);
+        responseData.push(station.commonName);
       });
       this.messageQueue.sendAppMessage({ group: 'TRAIN', operation: 'STATIONS', data: responseData.join('|') });
     }
@@ -132,9 +135,9 @@ var Train = function (options) {
   function opTrainDepartures(data) {
     var code = data;
     var requestData = {
-      station: code
+	//station: code
     };
-    this.http.get(this.api.departures, requestData, function (err, data) {
+      this.http.get(this.api.departures.replace("_STATION_", code), requestData, function (err, data) {
       if (err) {
         switch (err.message) {
         case 'NOT_CONNECTED':
@@ -145,15 +148,16 @@ var Train = function (options) {
           return;
         }
       }
-      var departures = data.departures.all;
+      var departures = data;
       var responseData = [];
       responseData.push(departures.length);
       departures.forEach(function (departure) {
         /*jshint -W106*/
-        responseData.push(departure.destination_name);
-        responseData.push(departure.expected_departure_time);
-        responseData.push(departure.status);
-        responseData.push(departure.platform);
+          responseData.push(departure.destinationName);
+	  var d = new Date(Date.parse(departure.expectedArrival));
+	  responseData.push(d.toString().slice(16,21)); 	  
+          responseData.push(departure.lineName); // can't find status in this API
+        responseData.push(departure.platformName);
         /*jshint +W106*/
       });
       this.messageQueue.sendAppMessage({ group: 'TRAIN', operation: 'DEPARTURES', data: responseData.join('|') });
